@@ -7,6 +7,7 @@ import joblib
 import numpy as np
 import extract_features
 
+
 # Initialize the flask app
 app = Flask(__name__)
 
@@ -67,13 +68,3 @@ def scan_file():
 
         # Data wasn't sent correctly
         return "Send me files in multipart form with the key 'file'"
-
-
-def main():
-
-    # Defines binding on 0.0.0.0:5000
-    app.run(host='0.0.0.0', debug=True, port=5000)
-
-
-if __name__ == "__main__":
-    main()

@@ -17,19 +17,18 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 def predict_pe(file_features):
+    scaler = joblib.load('scaler.pkl')
     file_array = list(file_features.values())[1:69]
-    file_array = np.array([float(current_value) for current_value in file_array])
-    file_array = np.expand_dims(file_array, axis=0)
+    file_array = np.array([float(val) for val in file_array]).reshape(1, -1)
+    file_array = scaler.transform(file_array)
     stack = joblib.load('stacking_model.pkl')
-    scaler = StandardScaler()
-    features = scaler.fit_transform(file_array)
-    probas = stack.predict_proba(features)
-    print(f"Theres a {probas[1]}% chance that this file is malware")
-
-
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+    probas = stack.predict_proba(file_array)
+    print(probas)
+    pred = np.argmax(np.array(probas), axis=1)[0]
+    if pred == 0:
+        return "Benign"
+    elif pred == 1:
+        return "Malicious"
 
 
 @app.route('/file', methods=['POST'])
@@ -45,8 +44,7 @@ def scan_file():
             if file_features == 0:
                 return "Not PE"
             else:
-                predict_pe(file_features)
-                return "Malicious"
+                return predict_pe(file_features)
     except KeyError:
         return "Send me files in multipart form with the key 'file'"
 

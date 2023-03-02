@@ -5,7 +5,7 @@ from torch.utils.data import random_split
 import numpy as np
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.model_selection import train_test_split as tt_split
-
+import joblib
 
 class ClampDataset(Dataset):
     def __init__(self, features, labels,  transform=None):
@@ -71,7 +71,9 @@ def preprocess_data(csv_path):
     labels = df['class'].values
     x = df.drop(columns=['packer_type', 'class']).values
     scaler = StandardScaler()
-    features = scaler.fit_transform(x)
+    scaler.fit(x)
+    features = scaler.transform(x)
+    joblib.dump(scaler, 'scaler.pkl')
     X_train, X_test, y_train, y_test = tt_split(features, labels, random_state=42)
     return X_train, X_test, y_train, y_test
 

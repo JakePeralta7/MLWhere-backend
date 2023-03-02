@@ -1,6 +1,7 @@
 import torch
 import data_extract as de
 from torch import nn
+from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence, pad_packed_sequence
 import numpy as np
 from train_eval import train_single_model, score_the_model
 from sklearn.model_selection import train_test_split, KFold
@@ -58,7 +59,7 @@ class MLP(nn.Module):
         """
         Predicts labels/probas to x_test. if y_test is not none also scores.
         """
-        # y_test passed as a parameter - scoring
+        # y_test passed as a parameter- scoring
         if test_loader is None and y_test is not None:
             test_loader, testset = de.create_dataloader(x_test, y_test, torch.tensor, self.bs, False)
         elif not test_loader:

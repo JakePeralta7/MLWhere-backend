@@ -9,7 +9,6 @@ import numpy as np
 
 # Our Functions
 import extract_features
-import data_extract
 
 
 app = Flask(__name__)

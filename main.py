@@ -18,17 +18,24 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 def predict_pe(file_features):
+
+    # Load existing scaler from pkl file
     scaler = joblib.load('scaler.pkl')
+
+    # Transform input dict into an array, normalize
     file_array = list(file_features.values())[1:69]
     file_array = np.array([float(val) for val in file_array]).reshape(1, -1)
     file_array = scaler.transform(file_array)
+
+    # Use the model to predict the label
     stack = joblib.load('stacking_model.pkl')
     probas = stack.predict_proba(file_array)
-    print(probas)
-    pred = np.argmax(np.array(probas), axis=1)[0]
-    if pred == 0:
+    prediction = np.argmax(np.array(probas), axis=1)[0]
+
+    # Returns prediction as response
+    if prediction == 0:
         return "Benign"
-    elif pred == 1:
+    elif prediction == 1:
         return "Malicious"
 
 

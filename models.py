@@ -129,15 +129,6 @@ class StackingEnsemble:
         if self.pca_components != 0:
             n_pcs = self.pca.components_.shape[0]
             most_important = [np.abs(self.pca.components_[i]).argmax() for i in range(n_pcs)]
-            # initial_feature_names = ['a', 'b', 'c', 'd', 'e']
-            # # get the names
-            # most_important_names = [initial_feature_names[most_important[i]] for i in range(n_pcs)]
-            #
-            # # LIST COMPREHENSION HERE AGAIN
-            # dic = {'PC{}'.format(i): most_important_names[i] for i in range(n_pcs)}
-            #
-            # # build the dataframe
-            # df = pd.DataFrame(dic.items())
             x_test_formeta = X_test[:, most_important]
         XM_test = np.hstack((x_test_formeta.copy(), np.full((X_test.shape[0], len(self.base_models)), -1)))
         for i, model in enumerate(self.base_models):

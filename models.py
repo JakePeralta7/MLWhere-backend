@@ -1,10 +1,9 @@
 import torch
 import data_extract as de
 from torch import nn
-from torch.nn.utils.rnn import pad_sequence, pack_padded_sequence, pad_packed_sequence
 import numpy as np
 from train_eval import train_single_model, score_the_model
-from sklearn.model_selection import train_test_split, KFold
+from sklearn.model_selection import KFold
 from sklearn.decomposition import PCA
 import joblib
 

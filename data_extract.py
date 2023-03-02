@@ -2,10 +2,10 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
 from torch.utils.data import random_split
-import numpy as np
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split as tt_split
 import joblib
+
 
 class ClampDataset(Dataset):
     def __init__(self, features, labels,  transform=None):

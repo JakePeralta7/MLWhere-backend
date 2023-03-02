@@ -5,8 +5,6 @@ from flask_cors import CORS, cross_origin
 import os
 import joblib
 import numpy as np
-
-# Our Functions
 import extract_features
 
 # Initialize the flask app

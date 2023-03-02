@@ -146,8 +146,8 @@ def file_related_features(pe_file, data):
 
         # ImageBase default values- does not seem like its very informative but ok:
     try:
-        imagebase = pe_file.OPTIONAL_HEADER.ImageBase
-        cond = 1 if imagebase in [268435456, 65536, 4194304] or not imagebase % (64 * 1024) else 0
+        image_base = pe_file.OPTIONAL_HEADER.ImageBase
+        cond = 1 if image_base in [268435456, 65536, 4194304] or not image_base % (64 * 1024) else 0
         data['ImageBase'] = cond
     except AttributeError:
         data['ImageBase'] = 0

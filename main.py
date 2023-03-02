@@ -4,7 +4,6 @@ from flask import Flask
 from flask_cors import CORS, cross_origin
 import os
 import joblib
-from sklearn.preprocessing import StandardScaler, MinMaxScaler
 import numpy as np
 
 # Our Functions
@@ -37,15 +36,29 @@ def scan_file():
     try:
         file = request.files["file"]
         if file:
+
+            # Generates full path
             file_path = os.path.join(os.getcwd(), file.filename)
+
+            # Saves the file in the backend
             file.save(file_path)
+
+            # Extracts features from PE as dict (gets 0 if not PE)
             file_features = extract_features.extract(file_path)
+
+            # Deletes the file
             os.remove(file_path)
+
+            # pefile couldn't parse the file as PE
             if file_features == 0:
                 return "Not PE"
+
+            # Retrieves results from model
             else:
                 return predict_pe(file_features)
     except KeyError:
+
+        # Data wasn't sent correctly
         return "Send me files in multipart form with the key 'file'"
 
 

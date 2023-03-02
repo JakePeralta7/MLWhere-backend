@@ -97,7 +97,7 @@ class StackingEnsemble:
 
     def __init__(self, models, folds, final_model, reduction_level):
         super(StackingEnsemble, self).__init__()
-        self.base_models = models  # Collection of already initted models
+        self.base_models = models  # Collection of already initiated models
         self.final_model = final_model
         self.pca_components = reduction_level
         self.folds = folds
